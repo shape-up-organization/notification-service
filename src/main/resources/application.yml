@@ -1,0 +1,20 @@
+server:
+  port: 7002
+
+spring:
+  data:
+    mongodb:
+      uri: ${MONGO_URI}
+  config:
+    import: optional:classpath:./variables-local.properties
+  kafka:
+    bootstrap-servers: localhost:9092
+  mail:
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    smtp:
+      auth: true
+      starttls:
+        enable: true
