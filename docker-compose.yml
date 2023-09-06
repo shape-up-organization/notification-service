@@ -2,16 +2,18 @@ version: "3.9"
 
 services:
   shapeup-notification:
-    container_name: shapeup-notification-mongodb
-    image: mongo
+    container_name: shapeup-notification-postgres
+    image: postgres:15.4
     restart: always
     ports:
-      - "27018:27017"
+      - "5433:5432"
     volumes:
         - ./data:/data/db
     environment:
+      POSTGRES_USER: shapeup-notification
+      POSTGRES_PASSWORD: shapeup-notification
+      POSTGRES_DB: shapeup-notification
       TZ: "America/Sao_Paulo"
-      MONGO_INITDB_DATABASE: shapeup-notification
 
   zookeeper:
     container_name: zookeeper
