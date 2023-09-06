@@ -4,6 +4,7 @@ plugins {
 	id("io.spring.dependency-management") version "1.1.2"
 	id("com.github.davidmc24.gradle.plugin.avro") version "1.8.0"
 	id("io.freefair.lombok") version "8.2.2"
+	id("org.flywaydb.flyway") version "9.22.0"
 }
 
 group = "br.com.shapeup"
@@ -16,6 +17,13 @@ java {
 repositories {
 	gradlePluginPortal()
 	mavenCentral()
+}
+
+flyway {
+	url = "jdbc:postgresql://localhost:5433/shapeup-notification"
+	driver = "org.postgresql.Driver"
+	user = "shapeup-notification"
+	password = "shapeup-notification"
 }
 
 dependencies {
@@ -34,6 +42,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-websocket")
 	implementation("org.springframework.kafka:spring-kafka")
 	implementation("org.springframework.boot:spring-boot-starter-mail")
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
 	/*
 	* Jackson
@@ -53,9 +62,15 @@ dependencies {
 	compileOnly("org.projectlombok:lombok:$lombokVersion")
 
 	/*
+	* Database
+	* */
+	runtimeOnly("org.postgresql:postgresql")
+
+	/*
 	* Others
 	* */
 	implementation("com.google.code.gson:gson:2.10.1")
+	implementation("org.flywaydb:flyway-core")
 }
 
 tasks.withType<Test> {
