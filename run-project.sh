@@ -9,10 +9,15 @@ DEFAULT_SLEEP_TIME=2
 
 echo "Iniciando script..."
 echo ""
+
+./gradlew clean build
+sleep $DEFAULT_SLEEP_TIME
+clear
+
 echo "Verificando a existência de $SUBDIR..."
 if [ -d "$SUBDIR" ]; then
     if docker-compose ps | grep -q "$CONTAINER_APP"; then
-        echo "Encessando o container '$CONTAINER_APP'..."
+        echo "Encerrando o container '$CONTAINER_APP'..."
         echo ""
         docker-compose down
         sleep $DEFAULT_SLEEP_TIME
