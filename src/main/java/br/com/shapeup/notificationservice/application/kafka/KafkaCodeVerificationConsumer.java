@@ -5,6 +5,7 @@ import br.com.shapeup.notificationservice.domain.enums.HtmlTemplateType;
 import br.com.shapeup.notificationservice.infrastructure.database.repository.EmailTemplateRepository;
 import br.com.shapeup.notificationservice.infrastructure.email.EmailService;
 import br.com.shapeup.notificationservice.message.SendCodeVerificationMessage;
+import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -17,12 +18,12 @@ public class KafkaCodeVerificationConsumer {
 
     private final EmailService emailService;
     private final EmailTemplateRepository emailTemplateRepository;
+    private final Gson gson = GsonBuilderSingletonEnum.INSTANCE.getGsonBuilder();
 
     @KafkaListener(topics = "tp-send-email-code-verification", groupId = "gp-send-email-code-verification")
     public void consumeEmail(String message) {
         log.info("KafkaEmailCodeVerificationConsumer.consume");
 
-        var gson = GsonBuilderSingletonEnum.INSTANCE.getGsonBuilder();
         SendCodeVerificationMessage messageJson = gson.fromJson(message, SendCodeVerificationMessage.class);
 
         var template = emailTemplateRepository.findByType(HtmlTemplateType.CONFIRM_EMAIL_CODE_VERIFICATION.getValue())
@@ -30,7 +31,7 @@ public class KafkaCodeVerificationConsumer {
                 .getContent();
 
         template = template.replace("{{code}}", messageJson.code());
-        template = template.replace("{{userName}}", messageJson.userName());
+        template = template.replace("{{user_name}}", messageJson.userName());
 
         emailService.sendHtmlEmail(messageJson.email(), "Shape Up - Código de verificação", template);
     }
