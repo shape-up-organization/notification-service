@@ -48,7 +48,7 @@ public class KafkaCodeVerificationConsumer {
                 .getContent();
 
         template = template.replace("{{code}}", messageJson.code());
-        template = template.replace("{{userName}}", messageJson.userName());
+        template = template.replace("{{user_name}}", messageJson.userName());
 
         emailService.sendHtmlEmail(messageJson.email(), "Shape Up - Código de verificação", template);
     }
