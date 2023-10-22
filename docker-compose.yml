@@ -60,6 +60,7 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
     networks:
       - general-network
+    restart: always
 
   kafdrop:
     container_name: kafdrop
