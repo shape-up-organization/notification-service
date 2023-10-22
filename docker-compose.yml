@@ -1,7 +1,7 @@
 version: "3.9"
 
 services:
-  shapeup-notification:
+  notificationpostgres:
     container_name: shapeup-notification-postgres
     image: postgres:15.4
     restart: always
@@ -14,6 +14,25 @@ services:
       POSTGRES_PASSWORD: shapeup-notification
       POSTGRES_DB: shapeup-notification
       TZ: "America/Sao_Paulo"
+    networks:
+      - general-network
+
+  notificiationapp:
+    build:
+      dockerfile: ./Dockerfile
+      context: .
+    container_name: shapeup-notification-app
+    environment:
+      - POSTGRES_USER=shapeup-notification
+      - POSTGRES_PASSWORD=shapeup-notification
+      - POSTGRES_DB=shapeup-notification
+      - POSTGRES_URL=jdbc:postgresql://notificationpostgres:5432/shapeup-notification
+    depends_on:
+      - notificationpostgres
+    ports:
+      - "7002:7002"
+    networks:
+      - general-network
 
   zookeeper:
     container_name: zookeeper
@@ -21,6 +40,8 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - general-network
 
   kafka:
     container_name: kafka
@@ -37,6 +58,8 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+    networks:
+      - general-network
 
   kafdrop:
     container_name: kafdrop
@@ -47,3 +70,8 @@ services:
       - "19000:9000"
     environment:
       KAFKA_BROKERCONNECT: kafka:29092
+    networks:
+      - general-network
+
+networks:
+  general-network: { }

@@ -2,8 +2,8 @@ package br.com.shapeup.notificationservice.domain.enums;
 
 public enum HtmlTemplateType {
 
-    CONFIRM_EMAIL_CODE_VERIFICATION("email-code-verification"),
-    RESET_PASSWORD_CODE_VERIFICATION("reset-password-code-verification");
+    CONFIRM_EMAIL_CODE_VERIFICATION("CONFIRM_EMAIL_CODE_VERIFICATION"),
+    RESET_PASSWORD_CODE_VERIFICATION("RESET_PASSWORD_CODE_VERIFICATION");
 
     private final String value;
 

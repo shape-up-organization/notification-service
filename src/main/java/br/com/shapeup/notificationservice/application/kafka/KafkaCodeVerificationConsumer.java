@@ -2,8 +2,8 @@ package br.com.shapeup.notificationservice.application.kafka;
 
 import br.com.shapeup.notificationservice.config.serdes.GsonBuilderSingletonEnum;
 import br.com.shapeup.notificationservice.domain.enums.HtmlTemplateType;
-import br.com.shapeup.notificationservice.infrastructure.email.EmailService;
 import br.com.shapeup.notificationservice.infrastructure.database.repository.EmailTemplateRepository;
+import br.com.shapeup.notificationservice.infrastructure.email.EmailService;
 import br.com.shapeup.notificationservice.message.SendCodeVerificationMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +30,6 @@ public class KafkaCodeVerificationConsumer {
                 .getContent();
 
         template = template.replace("{{code}}", messageJson.code());
-        template = template.replace("{{email}}", messageJson.email());
         template = template.replace("{{userName}}", messageJson.userName());
 
         emailService.sendHtmlEmail(messageJson.email(), "Shape Up - Código de verificação", template);
@@ -48,7 +47,6 @@ public class KafkaCodeVerificationConsumer {
                 .getContent();
 
         template = template.replace("{{code}}", messageJson.code());
-        template = template.replace("{{email}}", messageJson.email());
         template = template.replace("{{userName}}", messageJson.userName());
 
         emailService.sendHtmlEmail(messageJson.email(), "Shape Up - Código de verificação", template);
