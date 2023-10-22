@@ -8,6 +8,7 @@ ENV MAIL_HOST=smtp.gmail.com
 ENV MAIL_PORT=587
 ENV MAIL_USERNAME=shapeupnotification@gmail.com
 ENV MAIL_PASSWORD=csnetdtfzniapnje
+ENV KAFKA_BOOTSTRAP_SERVERS=kafka:9092
 COPY build/libs/notification-service-0.0.1.jar notification.jar
 
 EXPOSE 7002

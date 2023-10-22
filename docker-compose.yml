@@ -15,7 +15,7 @@ services:
       POSTGRES_DB: shapeup-notification
       TZ: "America/Sao_Paulo"
     networks:
-      - general-network
+      - global-network
 
   notificiationapp:
     build:
@@ -32,7 +32,7 @@ services:
     ports:
       - "7002:7002"
     networks:
-      - general-network
+      - global-network
 
   zookeeper:
     container_name: zookeeper
@@ -41,7 +41,7 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
     networks:
-      - general-network
+      - global-network
 
   kafka:
     container_name: kafka
@@ -54,12 +54,12 @@ services:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://kafka:29092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_INTERNAL://kafka:29092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
     networks:
-      - general-network
+      - global-network
     restart: always
 
   kafdrop:
@@ -72,7 +72,8 @@ services:
     environment:
       KAFKA_BROKERCONNECT: kafka:29092
     networks:
-      - general-network
+      - global-network
 
 networks:
-  general-network: { }
+  global-network:
+    external: true

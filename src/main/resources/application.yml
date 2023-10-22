@@ -19,7 +19,7 @@ spring:
   config:
     import: optional:classpath:./variables-local.properties
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
   mail:
     host: ${MAIL_HOST}
     port: ${MAIL_PORT}
